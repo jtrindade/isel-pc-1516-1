@@ -14,6 +14,8 @@ public class SyncQueue {
       Monitor.Pulse(this);
    }
    
+   // ERRO: não suporta devidamente interrupções
+   // (ver aula de 8-Out)
    public Object Take() {
       lock (this) {
          while (list.Count == 0) {
