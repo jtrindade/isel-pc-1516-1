@@ -42,13 +42,13 @@ public static class SNMonitor {
       for (;;) {
          try {
             Monitor.Enter(obj);
-            if (interrupted) {
-               Thread.CurrentThread.Interrupt();
-            }
-            return;
+            break;
          } catch (ThreadInterruptedException e) {
             interrupted = true;
          }
+      }
+      if (interrupted) {
+         Thread.CurrentThread.Interrupt();
       }
    }
    
@@ -56,15 +56,15 @@ public static class SNMonitor {
       for (;;) {
          try {
             Monitor.Enter(obj);
-            if (interrupt != null) {
-               throw interrupt;
-            }
-            return;
+            break;
          } catch (ThreadInterruptedException ex) {
             if (interrupt == null) {
                interrupt = ex;
             }
          }
+      }
+      if (interrupt != null) {
+         throw interrupt;
       }
    }
 }
